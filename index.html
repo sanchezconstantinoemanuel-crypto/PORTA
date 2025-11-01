@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portafolio TH</title>
+  <link rel="stylesheet" href="estilos.css" />
+</head>
+<body>
+
+  <!-- ENCABEZADO -->
+  <header class="header">
+    <div class="logo"><img src="imagenes/Recurso 13.png" alt="Logo TH" /></div>
+  </header>
+
+  <!-- CUADRO DE COLOR DEBAJO DEL LOGO -->
+  <div class="color-bar"></div>
+
+  <!-- CARRUSEL PRINCIPAL -->
+  <div class="carousel">
+    <div class="carousel-track">
+      <div class="carousel-slide"><img src="imagenes/flyer.png" alt="Proyecto 1" /></div>
+      <div class="carousel-slide"><img src="imagenes/flyer 2.png" alt="Proyecto 2" /></div>
+      <div class="carousel-slide"><img src="imagenes/flyer 3.png" alt="Proyecto 3" /></div>
+    </div>
+    <button class="carousel-btn prev">❮</button>
+    <button class="carousel-btn next">❯</button>
+  </div>
+
+  <!-- BOTONES DE INFORMACIÓN -->
+  <div class="hero-buttons">
+    <button class="hero-btn" data-info="info-habilidades">
+      <span class="icon"><img src="imagenes/engranaje.png" alt=""></span>
+    </button>
+    <button class="hero-btn" data-info="info-proyectos">
+      <span class="icon"><img src="imagenes/estrella.png" alt=""></span>
+    </button>
+    <button class="hero-btn" data-info="info-formacion">
+      <span class="icon"><img src="imagenes/estudios.png" alt=""></span>
+    </button>
+  </div>
+
+  <!-- CUADRO DE INFORMACIÓN (DINÁMICO) -->
+  <div id="info-box" class="info-box">
+    <div class="info-text info-default">
+      <p><strong>DA CLICK EN LOS BOTONES PARA MÁS INFORMACIÓN</strong></p>
+    </div>
+  </div>
+
+  <!-- SECCIÓN DE PROYECTOS -->
+  <section class="proyectos">
+    <div class="proyecto" data-proyecto="mou">
+      <img src="imagenes/mou.png" alt="Manual de Identidad MOU">
+    </div>
+
+    <div class="proyecto" data-proyecto="ramen">
+      <img src="imagenes/ramen.png" alt="Diseño Ramen">
+    </div>
+
+    <div class="proyecto" data-proyecto="solo">
+      <img src="imagenes/solo.png" alt="Solo Leveling">
+    </div>
+
+    <div class="proyecto" data-proyecto="terra">
+      <img src="imagenes/terra.png" alt="Terrarium">
+    </div>
+  </section>
+
+  <!-- VISTA DETALLADA DE PROYECTO -->
+  <section id="detalle-proyecto" class="detalle-proyecto">
+    <button class="cerrar-detalle">✕ Volver</button>
+    <div class="detalle-contenido">
+      <h2 id="detalle-titulo"></h2>
+      <p id="detalle-descripcion"></p>
+      <div id="detalle-imagenes" class="detalle-imagenes"></div>
+    </div>
+  </section>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="footer">
+    <p>© 2025 TH - Portafolio</p>
+  </footer>
+
+  <!-- SCRIPT PRINCIPAL -->
+  <script>
+  // === BOTONES DE INFORMACIÓN ===
+  const infoBox = document.getElementById('info-box');
+  const buttons = document.querySelectorAll('.hero-btn');
+
+  const infoContent = {
+    "info-habilidades": {
+      img: "imagenes/hab.png",
+      text: `
+        <h2>HABILIDADES</h2>
+        <div class='formacion-item'>
+          <p><strong>Creatividad:</strong> Capacidad para generar ideas innovadoras en diseño gráfico.</p>
+          <p><strong>Comunicación Visual:</strong> Dominio de composición, color y tipografía.</p>
+          <p><strong>Trabajo en Equipo:</strong> Colaboración eficaz en proyectos multidisciplinarios.</p>
+          <p><strong>Atención al Detalle:</strong> Enfoque en la precisión y consistencia visual.</p>
+        </div>
+      `
+    },"info-proyectos": {
+  img: "imagenes/vector.png",
+  text: `
+    <h2>SOFTWARES UTILIZADOS</h2>
+    <div class='formacion-item'>
+      <p>
+        <strong>Adobe Photoshop:</strong> Edición y retoque de imágenes profesionales.
+      </p>
+      <p>
+        <strong>Adobe Illustrator:</strong> Creación de ilustraciones vectoriales y logotipos.
+      </p>
+      <p>
+        <strong>Figma:</strong> Diseño UI/UX y desarrollo de prototipos interactivos.
+      </p>
+      <p>
+        <strong>Adobe Premiere Pro:</strong> Edición de video y montaje audiovisual profesional.
+      </p>
+    </div>
+  `
+},
+
+    "info-formacion": {
+      img: "imagenes/for.png",
+      text: `
+        <h2>FORMACIÓN</h2>
+        <div class='formacion-item'>
+          <h3>Bachillerato Tecnológico</h3>
+          <p><strong>Institución:</strong> Cbt No.3 Max Shein Heisler</p>
+          <p><strong>Especialidad:</strong> Diseño Asistido por Computadoras</p>
+          <p><strong>Años:</strong> 2020 – 2023</p>
+        </div>
+        <div class='formacion-item'>
+          <h3>Licenciatura</h3>
+          <p><strong>Universidad:</strong> Tres Culturas</p>
+          <p><strong>Carrera:</strong> Licenciatura en Diseño Gráfico</p>
+          <p><strong>Años:</strong> 2023 – 2025</p>
+        </div>
+      `
+    }
+  };
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const infoKey = btn.getAttribute('data-info');
+      const content = infoContent[infoKey];
+      infoBox.innerHTML = `
+        <img src="${content.img}" alt="${infoKey}" class="info-img">
+        <div class="info-text">${content.text}</div>
+      `;
+      infoBox.classList.add('active');
+    });
+  });
+
+  // === CARRUSEL FUNCIONAL ===
+  const track = document.querySelector('.carousel-track');
+  const slides = Array.from(track.children);
+  const nextButton = document.querySelector('.carousel-btn.next');
+  const prevButton = document.querySelector('.carousel-btn.prev');
+  let currentIndex = 0;
+
+  function showSlide(index) {
+    const slideWidth = slides[0].getBoundingClientRect().width;
+    track.style.transition = "transform 0.5s ease";
+    track.style.transform = `translateX(-${slideWidth * index}px)`;
+  }
+
+  nextButton.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % slides.length;
+    showSlide(currentIndex);
+  });
+
+  prevButton.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+    showSlide(currentIndex);
+  });
+
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % slides.length;
+    showSlide(currentIndex);
+  }, 5000);
+
+  // === PROYECTOS DETALLADOS ===
+  const proyectosData = {
+    "mou": {
+      titulo: "Manual de Identidad MOU",
+      descripcion: "Manual de identidad visual completo para MOU. Incluye diseño de logotipo, paleta de color, tipografía y aplicaciones corporativas.",
+      imagenes: ["imagenes/mou.png","imagenes/mou1.jpg", "imagenes/mou2.jpg", "imagenes/mou3.jpg", "imagenes/mou4.jpg", "imagenes/mou5.jpg"]
+    },
+    "ramen": {
+      titulo: "Diseño Ramen",
+      descripcion: "Proyecto de branding, empaque y diseño publicitario para restaurante de ramen japonés tradicional.",
+      imagenes: ["imagenes/ramen1.jpg", "imagenes/ramen2.jpg", "imagenes/ramen3.jpg"]
+    },
+    "solo": {
+      titulo: "Solo Leveling",
+      descripcion: "Diseño de póster e ilustraciones digitales inspiradas en la serie Solo Leveling, con estilo gráfico moderno.",
+      imagenes: ["imagenes/solo1.jpg", "imagenes/solo2.jpg", "imagenes/solo3.jpg"]
+    },
+    "terra": {
+      titulo: "Terrarium",
+      descripcion: "Diseño editorial y simulaciones 3D para la exposición de terrarios artísticos. Incluye renders y maquetación.",
+      imagenes: ["imagenes/terra.png", "imagenes/terra2.jpg", "imagenes/terra3.jpg"]
+    }
+  };
+
+  const proyectos = document.querySelectorAll('.proyecto');
+  const detalle = document.getElementById('detalle-proyecto');
+  const titulo = document.getElementById('detalle-titulo');
+  const descripcion = document.getElementById('detalle-descripcion');
+  const contenedorImg = document.getElementById('detalle-imagenes');
+  const cerrar = document.querySelector('.cerrar-detalle');
+
+  proyectos.forEach(proyecto => {
+    proyecto.addEventListener('click', () => {
+      const id = proyecto.dataset.proyecto;
+      const data = proyectosData[id];
+      titulo.textContent = data.titulo;
+      descripcion.textContent = data.descripcion;
+      contenedorImg.innerHTML = data.imagenes.map(src => `<img src="${src}" alt="">`).join('');
+      detalle.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  cerrar.addEventListener('click', () => {
+    detalle.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  });
+
+  detalle.addEventListener('click', e => {
+    if (e.target === detalle) {
+      detalle.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+  });
+  </script>
+
+</body>
+</html>
